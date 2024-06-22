@@ -10,7 +10,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { format } from "timeago.js";
 import "./css/joblist.css";
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from "react-i18next";
 
 export default function Joblist() {
   const [readData, setreadData] = useState([]);
@@ -19,6 +19,7 @@ export default function Joblist() {
   const [serach, setsearch] = useState("");
   let defalutjobtype = ["onsite", "remote", "hybrid"];
   const [searchicon, setsearchicon] = useState("");
+  const [employerInfo, setEmployerInfo] = useState({});
   const { t } = useTranslation();
 
   const searchclicked = () => {
@@ -40,7 +41,7 @@ export default function Joblist() {
     setjobtask(type);
     console.log(jobtype);
   };
-  
+
   const handlejobtaskd = () => {
     setjobtask("");
   };
@@ -75,8 +76,26 @@ export default function Joblist() {
         console.error("error", error);
       }
     };
+
     fetchData();
-  }, [jobtype, serach,jobtask]);
+  }, [jobtype, serach, jobtask]);
+
+  const fetchEmployerInfo = async (id) => {
+    try {
+      const response = await axios.get(
+        `http://localhost:4000/employer/serach/${id}`
+      );
+      setEmployerInfo((prevState) => ({ ...prevState, [id]: response.data }));
+    } catch (error) {
+      console.error("employer error", error);
+    }
+  };
+
+  useEffect(() => {
+    // Fetch employer info for all unique employer IDs in readData
+    const employerIds = [...new Set(readData.map((data) => data.employerid))];
+    employerIds.forEach((id) => fetchEmployerInfo(id));
+  }, [readData]);
 
   let navigate = useNavigate();
 
@@ -84,77 +103,71 @@ export default function Joblist() {
     navigate("Apply", { state: { postid: postid } });
   };
 
+  const getProfilePicUrl = (fileName) => {
+    return `http://localhost:4000/${fileName}`;
+  };
 
   return (
     <>
       {jobtask === "" ? (
         <>
           <div
-          className=" allfilter"
-          onClick={() => {
-            handlejobtask("Job");
-          }}
-        >
-          <FontAwesomeIcon className="delete" icon={faPlus} />
-          {t('Job')}
-        </div>
-        <div
-        className=" allfilter two"
-        onClick={() => {
-          handlejobtask("Task");
-        }}
-      >
-        <FontAwesomeIcon className="delete" icon={faPlus} />
-        {t('Task')}
-      </div>
-</>
+            className=" allfilter"
+            onClick={() => {
+              handlejobtask("Job");
+            }}
+          >
+            <FontAwesomeIcon className="delete" icon={faPlus} />
+            {t("Job")}
+          </div>
+          <div
+            className=" allfilter two"
+            onClick={() => {
+              handlejobtask("Task");
+            }}
+          >
+            <FontAwesomeIcon className="delete" icon={faPlus} />
+            {t("Task")}
+          </div>
+        </>
       ) : (
         <>
-        {jobtask === "Task" && (
-          <>
-          
-          <div
-          className=" allfilter"
-          onClick={() => {
-            handlejobtask("Job");
-          }}
-        >
-          <FontAwesomeIcon className="delete" icon={faPlus} />
-          {t('Job')}
-        </div>
-          <div
-            className="allfilter two"
-            onClick={handlejobtaskd}
-          >
-            <FontAwesomeIcon className="delete" icon={faMinus} />
-            {t('Task')}
-          </div>
-          </>
-        )}
-        {jobtask === "Job" && (
-          <>
-          <div
-            className="allfilter"
-            onClick={handlejobtaskd}
-          >
-            <FontAwesomeIcon className="delete" icon={faMinus} />
-            {t('Job')}
-          </div>
-                 <div
-                 className=" allfilter two"
-                 onClick={() => {
-                   handlejobtask("Task");
-                 }}
-               >
-                 <FontAwesomeIcon className="delete" icon={faPlus} />
-                 {t('Task')}
-               </div>
-               </>
-        )}
-      </>
+          {jobtask === "Task" && (
+            <>
+              <div
+                className=" allfilter"
+                onClick={() => {
+                  handlejobtask("Job");
+                }}
+              >
+                <FontAwesomeIcon className="delete" icon={faPlus} />
+                {t("Job")}
+              </div>
+              <div className="allfilter two" onClick={handlejobtaskd}>
+                <FontAwesomeIcon className="delete" icon={faMinus} />
+                {t("Task")}
+              </div>
+            </>
+          )}
+          {jobtask === "Job" && (
+            <>
+              <div className="allfilter" onClick={handlejobtaskd}>
+                <FontAwesomeIcon className="delete" icon={faMinus} />
+                {t("Job")}
+              </div>
+              <div
+                className=" allfilter two"
+                onClick={() => {
+                  handlejobtask("Task");
+                }}
+              >
+                <FontAwesomeIcon className="delete" icon={faPlus} />
+                {t("Task")}
+              </div>
+            </>
+          )}
+        </>
       )}
-
-
 
       <div className="jobparent">
         <div className={`serachparent`}>
@@ -178,7 +191,7 @@ export default function Joblist() {
           />
           <br /> <br />
           <div className="type">
-            {t('Job Title')} <br />
+            {t("Job Title")} <br />
             {defalutjobtype.map((type) => (
               <>
                 <div className="skills">
@@ -190,7 +203,8 @@ export default function Joblist() {
           </div>
           <br />
           <div className="type">
-             {t('Job Type')}<br />
+            {t("Job Type")}
+            <br />
             {defalutjobtype.map((type) =>
               jobtype === type ? (
                 <>
@@ -217,7 +231,7 @@ export default function Joblist() {
         </div>
 
         {isempty(readData) ? (
-          <div>
+          <div className="jobwhole">
             {readData.map((data) => (
               <>
                 <div
@@ -227,17 +241,48 @@ export default function Joblist() {
                   <div class="ribbon-2">{data.JobTask}</div>
 
                   <div className="date">{format(data.PostedDate)} </div>
-
+                  <div className="employerinfo">
+                    {employerInfo[data.employerid] ? (
+                      data.anonymous != true ? (
+                      <div >
+                        <div className="empName">
+                        {employerInfo[data.employerid].Fullname}
+                        </div>
+                        <div >
+                          <img
+                            className="ppf"
+                            src={
+                              employerInfo[data.employerid].freelancerprofile.profilepic === "" ||
+                              employerInfo[data.employerid].freelancerprofile.profilepic === null
+                                ? `/image/profile.jpg`
+                                : getProfilePicUrl(
+                                  employerInfo[data.employerid].freelancerprofile.profilepic
+                                  )
+                            }
+                            alt="Profile"
+                          />
+                      
+                          <p className="titles" style={{display:"inline"}}>
+                       
+                            {employerInfo[data.employerid].freelancerprofile.title}
+                          </p>
+                        </div>
+                      </div> )
+                      : <div  className="employerinfo1">Anonymous </div>
+                    ) : (
+                      <div>Loading...</div>
+                    )}
+                  </div>
                   <div>
-                    <h3 className="text"> {t('Job Type')}</h3>
+                    <h3 className="text"> {t("Job Type")}</h3>
                     <p className="title">{data.Jobtype}</p>
                   </div>
-                  <h3 className="text">{t('Job Title')} </h3>
+                  <h3 className="text">{t("Job Title")} </h3>
                   <p className="title">{data.Jobtitle}</p>
-                  <h3 className="text"> {t('Location')}</h3>
+                  <h3 className="text"> {t("Location")}</h3>
                   <p className="title">{data.location}</p>
                 </div>
-                <button className="btn-job">{t('More Information')}</button>
+                <button className="btn-job"  onClick={() => handleclick(data._id)}>{t("More Information")}</button>
               </>
             ))}
           </div>

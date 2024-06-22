@@ -18,18 +18,24 @@
     margin-right: 1rem;
     }
     .profilebox{
-      margin-top: -4rem;
+      margin-top: -6rem;
       position: fixed;
         display: flex;
         left: 0;
         z-index: 4;
+        
+      }
+      .morepro{
+        margin-top: 5rem;
+
+        
       }
       .profile-content{
-        width: 430px;
-        height: 580px;
-        border-radius: 20px;
+        width: 400px;
+        height: 600px;
+        border-radius: 10px;
         color: #ffffff;
-        background-color: rgba(14, 13, 13, 0.815);
+        background-color: rgba(13, 32, 34, 0.815);
         box-shadow: 5px 10px 30px rgba(15, 15, 15, 0.918);
         text-align: center;
       }
@@ -42,7 +48,7 @@
       }
       .pholder{
       position: relative;
-      right: -50%;
+      right: -43%;
       width: 4rem;
       height: 4rem;
         border-radius: 50%;
@@ -54,15 +60,21 @@
       .finprofile{
         border: solid  #97fbfb14 ;
         margin: 1rem;
-        height: 50px;
+        height: 85px;
         box-shadow: #97fbfb14  0px 30px 60px -12px inset, #2feeee14 0px 18px 36px -18px inset;
         cursor: pointer;
+      }
+      .complaint{
+        height: 40px;
       }
       .finprofile:hover{
         box-shadow: #97fbfb14  30px 0px 20px -30px inset, #2feeee14 0px -18px 36px 0px inset;
       }
       .finprofile p{
-        top: 50%;
+        text-align: center;
+        color:#b82222  ;
+      }
+      .finprofile h6{
         text-align: center;
         color:#3a8a8abd  ;
       }

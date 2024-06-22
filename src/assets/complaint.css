@@ -1,0 +1,80 @@
+/* General Form Styles */
+form {
+    max-width: 600px;
+    margin: 6rem auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .fs-frm-inputs {
+    margin-bottom: 20px;
+  }
+  
+  label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+  }
+  
+ 
+  
+  input[type="submit"] {
+    display: block;
+    width: 100%;
+    padding: 10px 0;
+    background-color: #1bc1a5;
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  input[type="submit"]:hover {
+    background-color: #00b392;
+  }
+  
+  input[type="submit"]:active {
+    background-color: #00948d;
+  }
+  
+ 
+  input.optional,
+  textarea.optional {
+    border-style: dashed;
+  }
+
+  .full-name,
+  .email-address,
+  .telephone{
+
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    box-sizing: border-box;
+  }
+  
+ 
+  .full-name,
+  .email-address,
+  .telephone,
+  .complaints {
+    display: block;
+    width: 100%;
+    margin-bottom: 15px;
+  }
+  
+ .complaints {
+    height: 130px;
+  }
+  
+  .hidden {
+    display: none;
+  }
+  

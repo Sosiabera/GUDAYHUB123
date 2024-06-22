@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import Home from "../Pages/Home";
 import Layout from "../Layouts/Layout";
 import Freelancerpage from "../Pages/FreelancerPage";
@@ -13,11 +13,17 @@ import Hire from "../Pages/Hire";
 import PrivateRoute from "./PrivateRoute";
 import Postdetails from "../Pages/postdetails"; 
 import Messenger from "../Pages/messenger/Messenger";
+import Footer from "../Layouts/footer";
+import Complaint from "../assets/complaint";
+import Offer from "../Pages/offer";
 
+const AppRoutes = () => {
+  const location = useLocation();
+  
+  const showFooter = [location.pathname !== "/", location.pathname !== "/Messenger" ];
 
-export default function RouthPath() {
   return (
-    <BrowserRouter>
+    <>
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
@@ -39,7 +45,11 @@ export default function RouthPath() {
             element={<PrivateRoute element={<Taskmanager />} />}
           />
            <Route
-            path="/freelancerpage/Messenger"
+            path="/freelancerpage/Offer"
+            element={<PrivateRoute element={<Offer />} />}
+          />
+           <Route
+            path="/Messenger"
             element={<PrivateRoute element={<Messenger />} />}
           />
           <Route
@@ -70,9 +80,23 @@ export default function RouthPath() {
             path="/employerpage/Applicantsdetails/postdetails"
             element={<PrivateRoute element={<Postdetails />} />}
           />
+            <Route
+            path="/complaint"
+            element={<PrivateRoute element={<Complaint />} />}
+          />
         </Route>
       </Routes>
+      {showFooter && <Footer />}
+    </>
+  );
+};
+
+export default function RouthPath() {
+  return (
+    <BrowserRouter>
+      <AppRoutes />
     </BrowserRouter>
   );
 }
+
 

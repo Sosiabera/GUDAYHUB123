@@ -4,6 +4,7 @@ import useAuth from "../../Hooks/UseAuth";
 import "./css/profile.css";
 import Addprofile from "./Addprofile";
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from "react-router-dom";
 
 export default function Frelancerprofile() {
   const { getUserData, getUserToken } = useAuth();
@@ -13,6 +14,7 @@ export default function Frelancerprofile() {
 
   const [inputValue, setinputValue] = useState({ title: "" });
   const [ShowAddProfile, setShowAddProfile] = useState(false);
+  const navigate = useNavigate();
   const { t } = useTranslation();
 
   const inputref = useRef(null);
@@ -138,6 +140,11 @@ export default function Frelancerprofile() {
     document.body.classList.remove("active-popup");
   }
 
+
+  const handleComplaintClick = () => {
+    navigate("/Complaint");
+  };
+
   return (
     <>
       <div>{ShowAddProfile && <Addprofile prop={freelancerData}
@@ -199,34 +206,15 @@ export default function Frelancerprofile() {
                   freelancerData.freelancerprofile?.description === null ||
                   freelancerData.freelancerprofile.portfolio?.link === null ? (
                     <div className="finprofile" onClick={addpro}>
-                      <p>{t('Finish creating your profile')} </p>
+                      <p>{t('Finish creating your profile!!')} </p>
+                      <h6>{t('Not having a finished profile  might affect your cradiability!')} </h6>
                     </div>
                   ) : null)}
-                <input
-                  onChange={(e) =>
-                    setinputValue({ ...inputValue, title: e.target.value })
-                  }
-                  className="input"
-                  type="text"
-                  placeholder="Address"
-                />{" "}
-                <br />
-                {t('CV')}
-                <input type="file" /> <br />
-                <input
-                  className="radio"
-                  type="radio"
-                  name="gender"
-                  value="male"
-                />{" "}
-                {t('Male')}
-                <input
-                  className="radio"
-                  type="radio"
-                  name="gender"
-                  value="female"
-                />{" "}
-                {t('Female')}
+                 
+                  <div className="finprofile complaint" onClick={handleComplaintClick}>
+                      <h6>{t('Complaint')} </h6>
+                    </div>
+              
                 <br /> <br />
                 <button className="popup-btn" onClick={editData}>
                   {t('Submit')}

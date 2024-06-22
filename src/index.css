@@ -43,7 +43,7 @@ input{
 }
 .logo img{
   width: 200px;
-  margin-right: 15rem;
+  margin-left: -5rem;
   margin-top: -4.5rem;
 }
 
@@ -263,9 +263,22 @@ left: 0;
 top: 0;
 width:100%;
 z-index: 1;
-  background-color: transparent;
+background: radial-gradient( circle at 40% 60%, #6abcbfe1,#498b8dd5);
+backdrop-filter: blur(15px);
   transition: 0.6s ease-in-out;
-  box-shadow: 5px 10px 30px rgba(0, 0, 0, 0.157);
+  box-shadow: 5px 10px 10px rgba(0, 0, 0, 0.157);
+}
+
+.nav::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 40% 60%, #b9fdff, #3e989b);
+
+  z-index: -1; /* Ensure the background is behind the content */
 }
 nav.active{
 box-shadow: 5px 10px 30px rgb(95, 158, 160);
@@ -275,7 +288,7 @@ color: #000000;
 nav ul{
 display: flex;
 cursor: pointer;
-margin-left: -30rem;
+margin-left: -50rem;
 }
 .active{
   background-color: #5f9ea0;
@@ -299,15 +312,15 @@ display: flex;
 font-size: 0.9rem;
 text-transform: uppercase;
 font-weight: 500;
-color:#5f9ea0;
+color:#01575a;
   letter-spacing: 1px;
   border-radius: 3px;
   transition: 0.2s ease-in-out;
 }
 nav ul li a:hover{
-background-color: #5f9ea0;
+background-color: #438c8f;
   color:#ffffff;
-box-shadow: 5px 10px 30px rgb(95, 158, 160);
+box-shadow: 5px 10px 30px rgb(98, 175, 177);
 transition: all ease 0.2s;
 }
 nav .menu-btn,
@@ -814,3 +827,66 @@ width: 600px;
               height:400px;
           }
       }
+      
+      .code{
+        display: none;
+      }
+      .codeactive{
+        display: block;
+      }
+
+
+      .footer {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 1000; /* Ensure it is on top of other elements */
+      }
+      
+      .round-btn {
+        background-color: #03ecba; /* Customize the button color */
+        color: white;
+        border: none;
+        padding: 15px;
+        cursor: pointer;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        position: relative; /* For the pseudo-element positioning */
+        overflow: hidden; /* To ensure the pseudo-element is clipped */
+      }
+      
+      .round-btn:hover {
+        transform: scale(0.95);
+        transition-duration: 0.3s;
+      }
+      
+      .round-btn::before {
+        content: "";
+        position: absolute;
+        width: 80%;
+        height: 30%;
+        background: linear-gradient(to right, #008728, #007c63);
+        filter: blur(10px);
+        bottom: -3px;
+        z-index: -1;
+        transition-duration: 0.3s;
+      }
+      
+      .round-btn:hover::before {
+        bottom: -1px;
+        filter: blur(5px);
+        transition-duration: 0.3s;
+      }
+      
+      .round-btn .svgIcon {
+        fill: white; /* Customize the icon color */
+        width: 24px;
+        height: 24px;
+      }
+
+      
+
+      

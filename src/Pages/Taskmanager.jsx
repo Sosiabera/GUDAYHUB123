@@ -21,7 +21,7 @@ export default function Taskmanager() {
   const [hiredIsEmpty, setHiredIsEmpty] = useState(false);
   const [hired, setHired] = useState(false);
   const { width, height } = useWindowSize();
-  const confettiDuration = 2000;
+  const confettiDuration = 1000;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -57,11 +57,13 @@ export default function Taskmanager() {
   }, [userData.userID]);
 
   useEffect(() => {
-    const hiredApplicant = readData.find(data => data.status === "hired");
+    const hiredApplicant = readHired.find(data => data.status === "hire");
     if (hiredApplicant) {
       setHired(true);
       setTimeout(() => {
-        axios.post("http://localhost:4000/hired/addhired", { appId: hiredApplicant._id })
+         axios.put(`http://localhost:4000/applicant/changehirestatus`, null, {
+          params: { status: "hired", applicantid: hiredApplicant._id  }
+        })
           .then(() => window.location.reload())
           .catch(error => {
             console.error("Error adding hired:", error);
@@ -78,7 +80,6 @@ export default function Taskmanager() {
     setHiredIsEmpty(readHired.length === 0);
   }, [readData, readHired]);
 
-  console.log("readHired:", readHired);
 
   return (
     <>

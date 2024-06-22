@@ -1,4 +1,4 @@
-import { createContext, useReducer } from "react";
+import { createContext, useReducer, useState } from "react";
 import useAuth from "./UseAuth";
 
 
@@ -12,11 +12,13 @@ const INITIAL_STATE ={
     user: userData,
     isFecthing: false,
     error: false,
+    currentChat: null
 }
 
 export const AuthContext = createContext(INITIAL_STATE);
  export const AuthContextProvider = ({children}) =>{
-    const [state, dispatch] = useReducer(UseAuth, INITIAL_STATE)
+    const [state, dispatch] = useReducer(useAuth, INITIAL_STATE)
+    const [currentChat, setCurrentChat] = useState(null);
 
     return(
         <AuthContext.Provider 
@@ -25,8 +27,11 @@ export const AuthContext = createContext(INITIAL_STATE);
         isFecthing:state.isFecthing, 
         error:state.error,
         dispatch,
+        currentChat,
+        setCurrentChat
         }}>
        {children}
         </AuthContext.Provider>
     )
  }
+

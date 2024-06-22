@@ -110,7 +110,7 @@ export default function EmployerProfile() {
 
   return (
     <>
-      <div className="holder end-0">
+      <div className="holder start-0">
         <img
           onClick={togglePopup}
           className="profilepic"
@@ -124,9 +124,9 @@ export default function EmployerProfile() {
       </div>
       <div className="wrapper">
         {popup && (
-          <div className="profilebox">
+          <div className={`profilebox morepro `}>
             <div className="profile-content">
-              <div className="pholder" onClick={handleImage}>
+              <div className="pholder " onClick={handleImage}>
                 <img
                   className="ppic"
                   src={
@@ -173,29 +173,7 @@ export default function EmployerProfile() {
                   setInputValue({ ...inputValue, phonenumber: e.target.value })
                 }
               />
-              <br />
-              <input
-                className="radio"
-                type="radio"
-                name="gender"
-                value="male"
-                checked={inputValue.gender === "male"}
-                onChange={(e) =>
-                  setInputValue({ ...inputValue, gender: e.target.value })
-                }
-              />
-              Male
-              <input
-                className="radio"
-                type="radio"
-                name="gender"
-                value="female"
-                checked={inputValue.gender === "female"}
-                onChange={(e) =>
-                  setInputValue({ ...inputValue, gender: e.target.value })
-                }
-              />
-              Female
+             
               <br /> <br />
               <input
                 type="text"

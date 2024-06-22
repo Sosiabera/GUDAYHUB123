@@ -1,11 +1,12 @@
 .messenger{
-    height: calc (100vh -70px);
+    height: 100vh;
     display: flex;
-    margin-top: 3rem;
+    overflow-y: hidden;
 }
 
 .chatMenu{
     flex: 3.5;
+    margin-top: 8rem;
 }
 .chatMenuInput{
     width: 90%;
@@ -23,7 +24,7 @@
     flex-direction: column;
 }
 .chatBoxTop{
-    height: 32%;
+    height: 100%;
     overflow-y: scroll;
     padding-right: 10px;
 }
@@ -57,7 +58,7 @@
 }
 .noconvo{
     position: absolute;
-    top:10%;
+    top:20%;
     font-size: 40px;
     color:#b4b1b1;
     cursor: default;

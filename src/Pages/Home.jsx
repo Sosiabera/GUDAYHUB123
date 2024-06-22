@@ -26,9 +26,9 @@ const Home = () => {
     skills: null,
     cv: null,
     additionaldoc: { educations: null, certifications: null },
-    gudayhistory: null,
+    gudayhistory:  { jobs:0, hired:0 },
     workhistory: null,
-    rating: null,
+    rating: 0,
     description: null,
     portfolio: { link: null, title: null },
   });

@@ -1,20 +1,184 @@
+.full-page{
+  height: 100vh;
+    padding: 0px; 
+    box-sizing: border-box; 
+  background: radial-gradient( circle at 50% 0%, #19979e, #014b51);
+}
+
+
 .fdetails{
-    margin: 2rem;
+  position: absolute;
+  left:0;
+  display: inline-flex;
     background-image: url('../components/images/details.svg');
     background-repeat: no-repeat; 
     background-position:right ;
     background-size: 20em;
+    border-right: solid;
+    height: 100vh;
+    width: 40%;
    /* border-radius: 10px;
     box-shadow: 0 0 10px rgb(95, 158, 160); */
 }
+.firstinfo{
+  margin: 2rem;
+  background-color: #016a6d;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+}
+
+.full-info{
+  display: inline-flex;
+  height: 100vh;
+  width: 55%;
+  position: absolute;
+  right:0;
+}
+
+.ppf-details {
+  position: absolute;
+  right: 0;
+  top:30%;
+  margin-right: -90px;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  object-fit: cover;
+  cursor: pointer;
+  border: solid 1px #007860;
+  background-color: #848484;
+}
+
+
 .fdetails h2{
-  color: #5f9ea0;
+  margin-top: 2rem;
+  padding: 2rem;
+  color: #95d9d7;
   font-size: 3rem;
   font-family:fantasy;
 }
 
+.fdetails p{
+  padding: 0 2rem;
+  color: #183837;
+  font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+
+
+.radio-inputs {
+  position: absolute;
+  left:50%;
+  transform: translate(-50%);
+  display: flex;
+  border-radius: 0.5rem;
+  background-color: #025860;
+  box-sizing: border-box;
+  font-size: 14px;
+  width: 50%;
+  height: 6.7%;
+  padding: 1rem 1rem 0 1rem;
+  margin-top: 3rem;
+  justify-content: space-between;
+}
+
+.radio-inputs .radio input {
+  display: none;
+}
+
+.radio-inputs .radio .name {
+  display: flex;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  border-top-left-radius: 0.5rem;
+  border-top-right-radius: 0.5rem;
+  border: none;
+  padding: 0.5rem 0.8rem;
+  transition: all 0.15s ease-in-out;
+  position: relative;
+  font-weight: 700;
+}
+.radio-inputs .radio input:checked + .h {
+  background-color: #178a91;
+}
+
+.radio-inputs .radio input:checked + .r {
+  background-color: #0f7e84;
+}
+.radio-inputs .radio input:checked + .v {
+  background-color: #107479;
+}
+.radio-inputs .radio input:checked + .name {
+  padding-bottom: 0.45rem;
+  font-weight: 600;
+  animation: move 1ms ;
+}
+.radio-inputs .radio input + .name:hover {
+  color: #fff;
+}
+.radio-inputs .radio input:checked + .name:hover {
+  color: #1d1d29;
+}
+
+.radio-inputs .radio input:checked + .name::after,
+.radio-inputs .radio input:checked + .name::before {
+  content: "";
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background-color: #025860;
+  bottom: 0;
+}
+
+.radio-inputs .radio input:checked + .h::after {
+  box-shadow: -3px 3px 0px 3px#12858b;
+}
+.radio-inputs .radio input:checked + .r::after {
+  box-shadow: -3px 3px 0px 3px#107c82;
+}
+.radio-inputs .radio input:checked + .v::after {
+  box-shadow: -3px 3px 0px 3px#107177;
+}
+
+.radio-inputs .radio input:checked + .name::after {
+  right: -10px;
+  border-bottom-left-radius: 300px;
+}
+
+.radio-inputs .radio input:checked + .h::before {
+  box-shadow: 3px 3px 0px 3px#108b92;
+}
+.radio-inputs .radio input:checked + .r::before {
+  box-shadow: 3px 3px 0px 3px#107f85;
+}
+.radio-inputs .radio input:checked + .v::before {
+  box-shadow: 3px 3px 0px 3px#0f767b;
+}
+
+.radio-inputs .radio input:checked + .name::before {
+  left: -10px;
+  border-bottom-right-radius: 300px;
+}
+
+@keyframes move {
+  0% {
+    left: -100px;
+  }
+
+  60% {
+    left: 100%;
+  }
+
+  to {
+    left: 100%;
+  }
+}
+
+
+
+
 .chat-btn {
-    background-color: #fff;
+    background-color: #93ddd0;
     border: 1px solid #5f9ea0;
     padding: 5px;
     position: relative;
@@ -27,18 +191,19 @@
   
   .chat-btn  {
     position: absolute;
-    bottom: 0.4em;
-    left: 1.15em;
+    bottom: 3em;
+    right: 1.15em;
     margin: 0;
     padding: 0;
     transition: .5s;
     color: #000;
+    z-index: 5;
   }
   .interview{
-    margin-left: 9rem;
+    margin-right: 9rem;
   }
   .hire{
-    margin-left: 18rem;
+    margin-right: 18rem;
   }
   
   .chat-btn svg {
@@ -54,7 +219,7 @@
   }
   
   .chat-btn:hover  {
-    left: 0.5em;
+    right: 1.8em;
     color: #fff
   }
   
@@ -102,5 +267,113 @@
   .popup-contenti button {
     margin-right: 10px;
   }
+
+
+
+  .ratings:not(:checked) > input {
+    position: absolute;
+    appearance: none;
+  }
+  
+  .ratings:not(:checked) > label {
+    float: right;
+    cursor: pointer;
+    font-size: 30px;
+    color: #666;
+  }
+  
+  .ratings:not(:checked) > label:before {
+    content: '★';
+  }
+  
+  .ratings > input:checked + label:hover,
+  .ratings > input:checked + label:hover ~ label,
+  .ratings > input:checked ~ label:hover,
+  .ratings > input:checked ~ label:hover ~ label,
+  .ratings > label:hover ~ input:checked ~ label {
+    color: #e58e09;
+  }
+  
+  .ratings:not(:checked) > label:hover,
+  .ratings:not(:checked) > label:hover ~ label {
+    color: #ff9e0b;
+  }
+  
+  .ratings > input:checked ~ label {
+    color: #ffa723;
+  }
+  
+
+  
+
+
+  .checkbox-wrapper-56 *,
+  .checkbox-wrapper-56 ::after,
+  .checkbox-wrapper-56 ::before {
+    box-sizing: border-box;
+  }
+
+  .checkbox-wrapper-56 .rating-container input {
+    opacity: 1;
+    -webkit-appearance: none;
+    cursor: pointer;
+    height: 50px;
+    width: 50px;
+    box-shadow: -10px -10px 15px rgba(255,255,255,0.5),
+    10px 10px 15px rgba(0,0,70,0.12);
+    border-radius: 50%;
+    border: 8px solid #ececec;
+    outline: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: .5s;
+  }
+
+  .checkbox-wrapper-56 .rating-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .checkbox-wrapper-56 .rating-container input::after {
+    transition: .5s;
+    font-family: monospace;
+    content: '';
+    color: #7a7a7a;
+    font-size: 25px;
+    left: 0.45em;
+    top: 0.25em;
+    width: 0.25em;
+    height: 0.5em;
+    border: solid #7a7a7a;
+    border-width: 0 0.15em 0.15em 0;
+    transform: rotate(45deg);
+  }
+
+  .checkbox-wrapper-56 .rating-container input:checked {
+    box-shadow: -10px -10px 15px rgba(255,255,255,0.5),
+    10px 10px 15px rgba(70,70,70,0.12),
+    inset -10px -10px 15px rgba(255,255,255,0.5),
+    inset 10px 10px 15px rgba(70,70,70,0.12);
+    transition: .5s;
+  }
+
+  .checkbox-wrapper-56 .rating-container input:checked::after {
+    transition: .5s;
+    border: solid #15e38a;
+    border-width: 0 0.15em 0.15em 0;
+    transform: rotate(45deg);
+  }
+
+  
+  
+
+  
+  
+  
+
+
+
   
   
