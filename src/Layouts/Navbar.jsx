@@ -63,6 +63,7 @@ const Navbar = () => {
               <RouterLink to="/freelancerpage/Messenger">{t('Message')}</RouterLink>
             </li>
             <li><ConfirmLink to="/" message="Are you sure you want to log out?">{t('LogOut')}</ConfirmLink></li>
+            <LanguageSwitcher />
           </>
         );
       case "/employerpage":

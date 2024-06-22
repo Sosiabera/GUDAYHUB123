@@ -3,6 +3,7 @@ import axios from "axios";
 import { useLocation } from "react-router-dom";
 import "./css/freelancerdetails.css";
 import { useTranslation } from 'react-i18next';
+import BackButton from "../BackButton";
 
 export default function Freelancerdetails() {
   const location = useLocation();
@@ -85,6 +86,7 @@ export default function Freelancerdetails() {
           </div>
         )}
       </div>
+      <BackButton />
     </>
   );
 }

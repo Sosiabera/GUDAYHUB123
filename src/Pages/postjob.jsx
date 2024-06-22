@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import "./css/post.css";
 import useAuth from "../Hooks/UseAuth";
+import BackButton from "../components/BackButton";
 
 export default function Write() {
   const { getUserData, getUserToken } = useAuth();
@@ -119,6 +120,7 @@ export default function Write() {
     setinputValue({ ...inputValue, urgency: !inputValue.urgency });
   };
 
+
   return (
     <>
       <div className="postimg">
@@ -216,6 +218,7 @@ export default function Write() {
                     </div>
                   </div>
 
+
                   <JobTypeSelector setinputValue={setinputValue} />
                   <InputField
                     name="Jobtitle"
@@ -312,6 +315,7 @@ export default function Write() {
           ))}
         </div>
       )}
+      <BackButton />
     </>
   );
 }
@@ -345,9 +349,11 @@ function JobTypeSelector({ setinputValue }) {
       >
         hybrid
       </div>
+      <BackButton />
     </div>
   );
 }
+
 
 function InputField({ name, placeholder, value, onChange }) {
   return (

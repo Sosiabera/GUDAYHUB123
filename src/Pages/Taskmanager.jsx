@@ -4,6 +4,7 @@ import useAuth from "../Hooks/UseAuth";
 import "./css/taskmanager.css";
 import { useWindowSize } from "@uidotdev/usehooks";
 import Confetti from "react-confetti";
+import BackButton from "../components/BackButton";
 
 export default function Taskmanager() {
   const { getUserData, getUserToken } = useAuth();
@@ -136,6 +137,7 @@ export default function Taskmanager() {
           </div>
         </>
       )}
+      <BackButton />
     </>
   );
 }
