@@ -50,6 +50,7 @@ export default function InterviewCall() {
             setName(data.name);
             setCallerSignal(data.signal);
         });
+        
 
         // Handle call accepted
         socket.on("callAccepted", async (signal) => {
@@ -61,7 +62,7 @@ export default function InterviewCall() {
         return () => {
             socket.emit("disconnect-video");
         };
-    }, [userData.userID]);
+    }, []);
 
     useEffect(() => {
         if (userVideo.current) {
@@ -79,12 +80,6 @@ export default function InterviewCall() {
             from: me,
             name: name
         });
-
-        socket.on("callAccepted", async (signal) => {
-            setCallAccepted(true);
-            const remoteDesc = new RTCSessionDescription(signal);
-            await peerConnection.current.setRemoteDescription(remoteDesc);
-        });
     };
 
     const answerCall = async () => {
@@ -101,25 +96,8 @@ export default function InterviewCall() {
 
     const leaveCall = () => {
         setCallEnded(true);
-
-        // Stop all tracks in the local stream
-        if (stream) {
-            stream.getTracks().forEach((track) => track.stop());
-        }
-
-        // Close the peer connection
         peerConnection.current.close();
-        peerConnection.current = new RTCPeerConnection();
-
-        // Inform the remote peer that the call has ended
-        socket.emit("disconnect-video");
-
-        // Reset state for future calls
         setRemoteStream(null);
-        setReceivingCall(false);
-        setCaller("");
-        setCallerSignal(null);
-        setCallAccepted(false);
     };
 
     useEffect(() => {
