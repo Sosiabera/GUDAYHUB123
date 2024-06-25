@@ -186,9 +186,7 @@ export default function Freelancerdetails() {
           </div>
         )}
       </div>
-<<<<<<< HEAD
       <BackButton />
-=======
       <button className="chat-btn" onClick={togglePopup}>
                offer
             </button>
