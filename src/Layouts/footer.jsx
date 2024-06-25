@@ -9,7 +9,23 @@ const navigate = useNavigate();
         navigate("/Messenger");
     };
 
+    const handleinterClick = () => {
+      navigate("/InterviewCalls");
+  };
+
   return (
+    <>
+      <div className="holder start-0 interviewlogo"  onClick={handleinterClick}>
+          
+          <img
+            className="profilepic "
+            src={`/image/interview5.png`}
+            alt="Profile"
+          />
+   
+      </div>
+
+
     <div className="footer">
       <button className="round-btn" title="Message" onClick={handleClick}>
         <svg className="svgIcon" viewBox="0 0 24 24">
@@ -17,5 +33,6 @@ const navigate = useNavigate();
         </svg>
       </button>
     </div>
+    </>
   );
 }

@@ -1,16 +1,21 @@
+.alljoblist{
+  background: linear-gradient(-60deg, #b8d8d8, #88baba, #659a9c, #a8c7c7, #82b8b8);
+
+}
 .jobwhole{
-  padding: 0 4rem;
+  padding: 1rem 4rem  0 4rem  ;
 }
 .postblock{
  
-    margin-top: 10rem;
+    margin-top: 8rem;
     margin-right: 8.5rem;
     margin-left: 8.5rem;
-    margin-bottom: -4rem;
+    margin-bottom: -10rem;
    height: 15rem;
-   overflow: hidden;
+   background-color: #ffffff;
    border-radius: .2rem;
-   box-shadow:rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px, rgb(204, 219, 232) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
+   box-shadow: rgb(172, 180, 187) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
+ 
   
 }
 
@@ -20,7 +25,7 @@
   cursor: pointer;
   border: solid 1px;
   margin: 1rem;
-  margin-top: -5rem;
+  margin-top: 5.7rem;
   margin-left: -2rem;
   padding-left: .5rem;
   padding-right: .5rem;
@@ -52,8 +57,8 @@
  
   position: fixed;
     width: 25%;
-    height: 650px;
-    margin-top: -5rem;
+    height: 700px;
+    margin-top: 5rem;
    
     overflow-x: hidden;
     overflow-y: scroll;
@@ -83,8 +88,8 @@
 
 .btn-job {
   margin-left: 8rem;
-  margin-top: 5rem;
-    position: absolute;
+  margin-top: 11rem;
+  margin-bottom: -6rem;
     transition: all 0.3s ease-in-out;
     box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
     padding-block: 0.5rem;
@@ -141,14 +146,14 @@
 .search{
   position: fixed; 
   z-index: 3;
-  margin-top: -8.3rem;
+  margin-top: 1.6rem;
   margin-right:1.3rem ;
 }
 
 .another{
   display: block;
   position: fixed;
-  margin-top:-9rem ;
+  margin-top:1rem ;
    margin-right:1rem ;
   border: 2px solid transparent;
   width: 18rem;
@@ -180,19 +185,19 @@
         width: 32%;
       }
   }
-@media (max-width:1000px) {
+@media (max-width:1100px) {
   .sidebar{
     display:none;
-    margin-top: -3.5rem;
+    margin-top: 3.5rem;
       width: 40%;
     }
     .sidebaractive{
       animation: side .3s ease-out ;
-      margin-top: -3.5rem;
+      margin-top: 7.3rem;
         width: 42%;
       }
       .another{
-        margin-top:-7.5rem ;
+        margin-top: 4.5rem ;
      
       }
 
@@ -214,7 +219,7 @@
     }
     .search{
       position: fixed;
-      margin-top: -7rem ;
+      margin-top: 5.3rem ;
       z-index: 3;
     }
     

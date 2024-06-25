@@ -24,6 +24,8 @@ const Navbar = () => {
     switch (location.pathname) {
       case "/freelancerpage/Messenger":
         case "/Messenger":
+          case "/Interview":
+          case "/room/:roomId":
       case "/employerpage/Freelancerdetails":
         setshowNav(false);
         break;

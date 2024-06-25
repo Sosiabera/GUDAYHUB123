@@ -109,6 +109,7 @@ export default function Joblist() {
 
   return (
     <>
+    <div className="alljoblist">
       {jobtask === "" ? (
         <>
           <div
@@ -291,6 +292,7 @@ export default function Joblist() {
             <img src={`/image/nojob.png`} />
           </div>
         )}
+      </div>
       </div>
     </>
   );
