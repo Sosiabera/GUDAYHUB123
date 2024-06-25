@@ -250,7 +250,6 @@ export default function Freelancerdetails() {
                 </div>
               )}
             </div>
->>>>>>> d7f2f325d7c8b7e87b47a10e1d0cf2730dfa7fdd
     </>
   );
 }

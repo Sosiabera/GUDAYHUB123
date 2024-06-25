@@ -3,32 +3,47 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 
 const SkillTest = () => {
-  const { id } = useParams();
+  const { id } = useParams(); // Extract id parameter from URL
   const [test, setTest] = useState(null);
   const [answers, setAnswers] = useState([]);
   const [score, setScore] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchTest = async () => {
       try {
-        const res = await axios.get(`/api/skillTests/${id}`);
-        setTest(res.data);
-        setAnswers(new Array(res.data.questions.length).fill(null));
+        const res = await axios.get(`http://localhost:4000/skillTests/getskilltests/${id}`);
+        console.log('Response from API:', res.data);
+        if (res.data) {
+          setTest(res.data);
+          setAnswers(new Array(res.data.questions.length).fill(null));
+        } else {
+          setError('Test data not found');
+        }
       } catch (error) {
         console.error('Error fetching test data:', error);
+        setError('Error fetching test data');
+      } finally {
+        setLoading(false);
       }
     };
+
     fetchTest();
-  }, [id]);
+  }, [id]); // Fetch data whenever id changes
 
   const handleSubmit = async () => {
     try {
-      const res = await axios.post(`/api/skillTests/${id}/submit`, { answers });
+      const res = await axios.post(`http://localhost:4000/skillTests/getskilltests/${id}/submit`, { answers });
       setScore(res.data.score);
     } catch (error) {
       console.error('Error submitting answers:', error);
+      setError('Error submitting answers');
     }
   };
+
+  if (loading) return <p>Loading test...</p>;
+  if (error) return <p>{error}</p>;
 
   return (
     <div>
