@@ -144,9 +144,23 @@ export default function Frelancerprofile() {
   const handleComplaintClick = () => {
     navigate("/Complaint");
   };
+  const handleClick = () => {
+    navigate("/Interview");
+};
 
   return (
     <>
+           <div className="holder start-0 interviewlogo">
+          
+            <img
+              onClick={handleClick}
+              className="profilepic "
+              src={`/image/interview5.png`}
+              alt="Profile"
+            />
+     
+        </div>
+
       <div>{ShowAddProfile && <Addprofile prop={freelancerData}
                                           prop2 ={addpro} />}</div>
       <div>

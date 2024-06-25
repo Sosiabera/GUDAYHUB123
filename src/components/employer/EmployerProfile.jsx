@@ -108,8 +108,23 @@ export default function EmployerProfile() {
     return `http://localhost:4000/${fileName}`;
   };
 
+  const handleClick = () => {
+    navigate("/Interview");
+};
+
   return (
     <>
+  <div className="holder start-0 interviewlogo">
+          
+          <img
+            onClick={handleClick}
+            className="profilepic "
+            src={`/image/interview5.png`}
+            alt="Profile"
+          />
+   
+      </div>
+
       <div className="holder start-0">
         <img
           onClick={togglePopup}

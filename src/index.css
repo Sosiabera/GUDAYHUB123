@@ -838,8 +838,8 @@ width: 600px;
 
       .footer {
         position: fixed;
-        bottom: 20px;
-        right: 20px;
+        top: 220px;
+        left: 27px;
         z-index: 1000; /* Ensure it is on top of other elements */
       }
       
@@ -853,14 +853,15 @@ width: 600px;
         display: flex;
         align-items: center;
         justify-content: center;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        position: relative; /* For the pseudo-element positioning */
-        overflow: hidden; /* To ensure the pseudo-element is clipped */
+        transform: scale(0.93);
+        transition-duration: 0.3s;
+        overflow: hidden;
       }
       
       .round-btn:hover {
-        transform: scale(0.95);
+        transform: scale(1);
         transition-duration: 0.3s;
+        overflow: hidden;
       }
       
       .round-btn::before {
@@ -871,7 +872,7 @@ width: 600px;
         background: linear-gradient(to right, #008728, #007c63);
         filter: blur(10px);
         bottom: -3px;
-        z-index: -1;
+        z-index: 1000;
         transition-duration: 0.3s;
       }
       
