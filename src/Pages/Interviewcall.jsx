@@ -26,10 +26,6 @@ export default function InterviewCall() {
     const [idToCall, setIdToCall] = useState("");
     const [callEnded, setCallEnded] = useState(false);
     const [name, setName] = useState("");
-<<<<<<< HEAD
-    const [remoteStream, setRemoteStream] = useState(new MediaStream());
-=======
->>>>>>> ef197ab4ebb928e4ef6840c457b1f97889fb1f93
 
     const myVideo = useRef();
     const userVideo = useRef();
@@ -53,28 +49,12 @@ export default function InterviewCall() {
             setCallerSignal(data.signal);
         });
 
-<<<<<<< HEAD
-        socket.on("callAccepted", async (signal) => {
-            setCallAccepted(true);
-            const remoteDesc = new RTCSessionDescription(signal);
-            await peerConnection.current.setRemoteDescription(remoteDesc);
-        });
-
-        socket.on("callEnded", () => {
-            setCallEnded(true);
-            peerConnection.current.close();
-        });
-    }, []);
-=======
     const callUser = (id) => {
         localPeerConnection.current = new RTCPeerConnection();
->>>>>>> ef197ab4ebb928e4ef6840c457b1f97889fb1f93
 
         stream.getTracks().forEach((track) => {
             localPeerConnection.current.addTrack(track, stream);
         });
-<<<<<<< HEAD
-=======
 
         localPeerConnection.current.onicecandidate = (event) => {
             if (event.candidate) {
@@ -102,7 +82,6 @@ export default function InterviewCall() {
         });
 
         connectionRef.current = localPeerConnection.current;
->>>>>>> ef197ab4ebb928e4ef6840c457b1f97889fb1f93
     };
 
     const answerCall = () => {
@@ -135,30 +114,9 @@ export default function InterviewCall() {
 
     const leaveCall = () => {
         setCallEnded(true);
-<<<<<<< HEAD
-        peerConnection.current.close();
-        setRemoteStream(new MediaStream());
-    };
-
-    useEffect(() => {
-        if (stream) {
-            stream.getTracks().forEach(track => {
-                peerConnection.current.addTrack(track, stream);
-            });
-
-            peerConnection.current.ontrack = (event) => {
-                const [remoteStream] = event.streams;
-                setRemoteStream(remoteStream);
-            };
-        }
-    }, [stream]);
-
-
-=======
         connectionRef.current.close();
     };
 
->>>>>>> ef197ab4ebb928e4ef6840c457b1f97889fb1f93
     return (
         <>
             <h1 style={{ textAlign: "center", color: '#fff' }}>Zoomish</h1>
