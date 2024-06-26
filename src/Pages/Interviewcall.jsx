@@ -18,35 +18,30 @@ export default function InterviewCall() {
     const token = getUserToken();
 
     const [me, setMe] = useState("");
-    const [stream, setStream] = useState(null);
+    const [stream, setStream] = useState();
     const [receivingCall, setReceivingCall] = useState(false);
     const [caller, setCaller] = useState("");
-    const [callerSignal, setCallerSignal] = useState(null);
+    const [callerSignal, setCallerSignal] = useState();
     const [callAccepted, setCallAccepted] = useState(false);
     const [idToCall, setIdToCall] = useState("");
     const [callEnded, setCallEnded] = useState(false);
     const [name, setName] = useState("");
-    const [remoteStream, setRemoteStream] = useState(null);
 
     const myVideo = useRef();
     const userVideo = useRef();
-    const peerConnection = useRef(new RTCPeerConnection());
+    const connectionRef = useRef();
+    const localPeerConnection = useRef();
 
     useEffect(() => {
-        // Set up local video stream
         navigator.mediaDevices.getUserMedia({ video: true, audio: true }).then((stream) => {
             setStream(stream);
-            if (myVideo.current) {
-                myVideo.current.srcObject = stream;
-            }
+            myVideo.current.srcObject = stream;
         });
 
-        // Receive socket ID from server
         socket.on("me", (id) => {
             setMe(id);
         });
 
-        // Handle incoming call
         socket.on("callUser", (data) => {
             setReceivingCall(true);
             setCaller(data.from);
@@ -55,63 +50,74 @@ export default function InterviewCall() {
         });
     }, []);
 
-   
+    const callUser = (id) => {
+        localPeerConnection.current = new RTCPeerConnection();
 
-    useEffect(() => {
-        if (userVideo.current) {
-            userVideo.current.srcObject = remoteStream;
-        }
-    }, [remoteStream]);
-
-    const callUser = async (id) => {
-        const offer = await peerConnection.current.createOffer();
-        await peerConnection.current.setLocalDescription(offer);
-
-        socket.emit("callUser", {
-            userToCall: id,
-            signalData: offer,
-            from: me,
-            name: name
+        stream.getTracks().forEach((track) => {
+            localPeerConnection.current.addTrack(track, stream);
         });
 
-        socket.on("callAccepted", async (signal) => {
+        localPeerConnection.current.onicecandidate = (event) => {
+            if (event.candidate) {
+                socket.emit("sendCandidate", { candidate: event.candidate, to: id });
+            }
+        };
+
+        localPeerConnection.current.ontrack = (event) => {
+            userVideo.current.srcObject = event.streams[0];
+        };
+
+        localPeerConnection.current.createOffer().then((offer) => {
+            localPeerConnection.current.setLocalDescription(offer);
+            socket.emit("callUser", {
+                userToCall: id,
+                signalData: offer,
+                from: me,
+                name: name,
+            });
+        });
+
+        socket.on("callAccepted", (signal) => {
             setCallAccepted(true);
-            const remoteDesc = new RTCSessionDescription(signal);
-            await peerConnection.current.setRemoteDescription(remoteDesc);
+            localPeerConnection.current.setRemoteDescription(new RTCSessionDescription(signal));
         });
+
+        connectionRef.current = localPeerConnection.current;
     };
 
-    const answerCall = async () => {
+    const answerCall = () => {
         setCallAccepted(true);
+        localPeerConnection.current = new RTCPeerConnection();
 
-        const remoteDesc = new RTCSessionDescription(callerSignal);
-        await peerConnection.current.setRemoteDescription(remoteDesc);
+        stream.getTracks().forEach((track) => {
+            localPeerConnection.current.addTrack(track, stream);
+        });
 
-        const answer = await peerConnection.current.createAnswer();
-        await peerConnection.current.setLocalDescription(answer);
+        localPeerConnection.current.onicecandidate = (event) => {
+            if (event.candidate) {
+                socket.emit("sendCandidate", { candidate: event.candidate, to: caller });
+            }
+        };
 
-        socket.emit("answerCall", { signal: answer, to: caller });
+        localPeerConnection.current.ontrack = (event) => {
+            userVideo.current.srcObject = event.streams[0];
+        };
+
+        localPeerConnection.current.setRemoteDescription(new RTCSessionDescription(callerSignal)).then(() => {
+            localPeerConnection.current.createAnswer().then((answer) => {
+                localPeerConnection.current.setLocalDescription(answer);
+                socket.emit("answerCall", { signal: answer, to: caller });
+            });
+        });
+
+        connectionRef.current = localPeerConnection.current;
     };
 
     const leaveCall = () => {
         setCallEnded(true);
-        peerConnection.current.close();
-        setRemoteStream(null);
+        connectionRef.current.close();
     };
 
-    useEffect(() => {
-        if (stream) {
-            stream.getTracks().forEach(track => {
-                peerConnection.current.addTrack(track, stream);
-            });
-
-            peerConnection.current.ontrack = (event) => {
-                const [remoteStream] = event.streams;
-                setRemoteStream(remoteStream);
-            };
-        }
-    }, [stream]);
- 
     return (
         <>
             <h1 style={{ textAlign: "center", color: '#fff' }}>Zoomish</h1>
