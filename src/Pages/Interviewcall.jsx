@@ -26,14 +26,13 @@ export default function InterviewCall() {
     const [idToCall, setIdToCall] = useState("");
     const [callEnded, setCallEnded] = useState(false);
     const [name, setName] = useState("");
-    const [remoteStream, setRemoteStream] = useState(null);
+    const [remoteStream, setRemoteStream] = useState(new MediaStream());
 
     const myVideo = useRef();
     const userVideo = useRef();
     const peerConnection = useRef(new RTCPeerConnection());
 
     useEffect(() => {
-        // Set up local video stream
         navigator.mediaDevices.getUserMedia({ video: true, audio: true }).then((stream) => {
             setStream(stream);
             if (myVideo.current) {
@@ -41,21 +40,28 @@ export default function InterviewCall() {
             }
         });
 
-        // Receive socket ID from server
         socket.on("me", (id) => {
             setMe(id);
         });
 
-        // Handle incoming call
         socket.on("callUser", (data) => {
             setReceivingCall(true);
             setCaller(data.from);
             setName(data.name);
             setCallerSignal(data.signal);
         });
-    }, []);
 
-   
+        socket.on("callAccepted", async (signal) => {
+            setCallAccepted(true);
+            const remoteDesc = new RTCSessionDescription(signal);
+            await peerConnection.current.setRemoteDescription(remoteDesc);
+        });
+
+        socket.on("callEnded", () => {
+            setCallEnded(true);
+            peerConnection.current.close();
+        });
+    }, []);
 
     useEffect(() => {
         if (userVideo.current) {
@@ -72,12 +78,6 @@ export default function InterviewCall() {
             signalData: offer,
             from: me,
             name: name
-        });
-
-        socket.on("callAccepted", async (signal) => {
-            setCallAccepted(true);
-            const remoteDesc = new RTCSessionDescription(signal);
-            await peerConnection.current.setRemoteDescription(remoteDesc);
         });
     };
 
@@ -96,7 +96,7 @@ export default function InterviewCall() {
     const leaveCall = () => {
         setCallEnded(true);
         peerConnection.current.close();
-        setRemoteStream(null);
+        setRemoteStream(new MediaStream());
     };
 
     useEffect(() => {
@@ -111,7 +111,8 @@ export default function InterviewCall() {
             };
         }
     }, [stream]);
- 
+
+
     return (
         <>
             <h1 style={{ textAlign: "center", color: '#fff' }}>Zoomish</h1>
@@ -158,7 +159,6 @@ export default function InterviewCall() {
                                 <PhoneIcon fontSize="large" />
                             </IconButton>
                         )}
-                        {idToCall}
                     </div>
                 </div>
                 <div>
