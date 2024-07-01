@@ -3,6 +3,7 @@ import axios from "axios";
 import { useLocation } from "react-router-dom";
 import "./css/freelancerdetails.css";
 import { useTranslation } from 'react-i18next';
+import BackButton from "../BackButton";
 import useAuth from "../../Hooks/UseAuth";
 
 export default function Freelancerdetails() {
@@ -185,6 +186,7 @@ export default function Freelancerdetails() {
           </div>
         )}
       </div>
+      <BackButton />
       <button className="chat-btn" onClick={togglePopup}>
                offer
             </button>

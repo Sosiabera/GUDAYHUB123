@@ -3,13 +3,15 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import useAuth from "../Hooks/UseAuth";
 import "./css/taskmanager.css";
+import { useTranslation } from 'react-i18next';
+import BackButton from "../components/BackButton";
 
 export default function Posthistory(){
     const { getUserData, getUserToken } = useAuth();
 
     const userData = getUserData();
     const token = getUserToken();
-
+    const { t } = useTranslation();
 
     const [readData, setreadData] = useState([]);
     const [arrayIsEmpty, setArrayIsEmpty] = useState(false);
@@ -64,29 +66,30 @@ export default function Posthistory(){
     return(
         <>
          {arrayIsEmpty  ? (
-        <div className="taskblock">You have not posted any job or task yet</div>
+        <div className="taskblock">{t('You have not posted any job or task yet')}</div>
       ) : (
      <div>
-      <div className="taskblock">You have {DataLen} active job </div>
+      <div className="taskblock">{t('You have')} {DataLen}  {t('active job')}</div>
         {readData.map((data) => (
           <>
          <div className="applylist" >
              <div>
-             <h3 className="textf">Job title </h3>
+             <h3 className="textf"> {t('Job title')}</h3>
           <p className="titlef">{data.Jobtitle}</p>
           </div>
-             <h3 className="textf">Job type </h3>
+             <h3 className="textf">{t('Job type')} </h3>
           <p className="titlef">{data.Jobtype}</p>
-          <h3 className="textf">Description </h3>
+          <h3 className="textf">{t('Description')} </h3>
           <p className="titlef">{data.Description}</p>
             </div>
             <button className="btn-job1 more" onClick={() => handlepost(data._id)}>
-            Post details</button>
-          <button className="btn-job1 more1" onClick={() => handleclick(data._id)}>See applicant</button>
+            {t('Post details')}</button>
+          <button className="btn-job1 more1" onClick={() => handleclick(data._id)}>{t('See applicant')}</button>
           </>
          ))}
           </div>
             )}
+            <BackButton />
         </>
      )
     }

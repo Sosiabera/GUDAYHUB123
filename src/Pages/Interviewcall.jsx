@@ -1,22 +1,18 @@
-import { useEffect, useState, useRef } from 'react';
-import { io } from 'socket.io-client';
-import useAuth from '../Hooks/UseAuth';
+import { CopyToClipboard } from "react-copy-to-clipboard";
+import { io } from "socket.io-client";
+import { useEffect, useState, useRef } from "react";
+import useAuth from "../Hooks/UseAuth";
 import React from 'react';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import TextField from '@mui/material/TextField';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import PhoneIcon from '@mui/icons-material/Phone';
-import { CopyToClipboard } from "react-copy-to-clipboard";
-import ReactPlayer from "react-player";
 
-const socket = io.connect('ws://localhost:4100');
+const socket = io.connect("ws://localhost:4100");
 
-export default function InterviewCall() {
-    const { getUserData, getUserToken } = useAuth();
-
-    const userData = getUserData();
-    const token = getUserToken();
+const InterviewCall = () => {
+    const { getUserData, getUserToken } = useAuth(); // Replace with your actual authentication hooks
 
     const [me, setMe] = useState('');
     const [stream, setStream] = useState(null);
@@ -26,23 +22,20 @@ export default function InterviewCall() {
     const [callAccepted, setCallAccepted] = useState(false);
     const [idToCall, setIdToCall] = useState('');
     const [callEnded, setCallEnded] = useState(false);
-    const [name, setName] = useState('');
-    const [remoteStream, setRemoteStream] = useState(null);
-    const [userVideoSrc, setUserVideoSrc] = useState('');
+    const [name, setName] = useState("");
 
     const myVideo = useRef();
     const userVideo = useRef();
-    const peerConnection = useRef(new RTCPeerConnection());
+    const connectionRef = useRef();
+    const localPeerConnection = useRef();
 
     useEffect(() => {
-        // Set up local video stream
         navigator.mediaDevices.getUserMedia({ video: true, audio: true }).then((stream) => {
             setStream(stream);
-          
+            myVideo.current.srcObject = stream;
         });
 
-        // Receive socket ID from server
-        socket.on('me', (id) => {
+        socket.on("me", (id) => {
             setMe(id);
         });
 
@@ -53,31 +46,28 @@ export default function InterviewCall() {
             setName(data.name);
             setCallerSignal(data.signal);
         });
+    }, []);
 
-        // Handle incoming tracks from remote peer
-        peerConnection.current.ontrack = (event) => {
-            if (event.streams && event.streams[0]) {
-                setRemoteStream(event.streams[0]);
-                console.log(event.streams[0])
+    const callUser = (id) => {
+        localPeerConnection.current = new RTCPeerConnection();
+
+        stream.getTracks().forEach((track) => {
+            localPeerConnection.current.addTrack(track, stream);
+        });
+
+        localPeerConnection.current.onicecandidate = (event) => {
+            if (event.candidate) {
+                socket.emit("sendCandidate", { candidate: event.candidate, to: id });
             }
         };
 
-    }, []);
+        localPeerConnection.current.ontrack = (event) => {
+            userVideo.current.srcObject = event.streams[0];
+        };
 
-    // Set remote stream to userVideoSrc when it changes
-    useEffect(() => {
-        if (remoteStream) {
-            const videoSrc = URL.createObjectURL(remoteStream);
-            setUserVideoSrc(videoSrc);
-        }
-    }, [remoteStream]);
-
-    const callUser = async (id) => {
-        try {
-            const offer = await peerConnection.current.createOffer();
-            await peerConnection.current.setLocalDescription(offer);
-
-            socket.emit('callUser', {
+        localPeerConnection.current.createOffer().then((offer) => {
+            localPeerConnection.current.setLocalDescription(offer);
+            socket.emit("callUser", {
                 userToCall: id,
                 signalData: offer,
                 from: me,
@@ -94,52 +84,51 @@ export default function InterviewCall() {
         }
     };
 
-    const answerCall = async () => {
-        try {
-            setCallAccepted(true);
+    const answerCall = () => {
+        setCallAccepted(true);
+        localPeerConnection.current = new RTCPeerConnection();
 
-            const remoteDesc = new RTCSessionDescription(callerSignal);
-            await peerConnection.current.setRemoteDescription(remoteDesc);
+        stream.getTracks().forEach((track) => {
+            localPeerConnection.current.addTrack(track, stream);
+        });
 
-            const answer = await peerConnection.current.createAnswer();
-            await peerConnection.current.setLocalDescription(answer);
+        localPeerConnection.current.onicecandidate = (event) => {
+            if (event.candidate) {
+                socket.emit("sendCandidate", { candidate: event.candidate, to: caller });
+            }
+        };
 
-            socket.emit('answerCall', { signal: answer, to: caller });
-        } catch (error) {
-            console.error('Error answering call:', error);
-        }
+        localPeerConnection.current.ontrack = (event) => {
+            userVideo.current.srcObject = event.streams[0];
+        };
+
+        localPeerConnection.current.setRemoteDescription(new RTCSessionDescription(callerSignal)).then(() => {
+            localPeerConnection.current.createAnswer().then((answer) => {
+                localPeerConnection.current.setLocalDescription(answer);
+                socket.emit("answerCall", { signal: answer, to: caller });
+            });
+        });
+
+        connectionRef.current = localPeerConnection.current;
     };
 
     const leaveCall = () => {
         setCallEnded(true);
-        if (stream) {
-            stream.getTracks().forEach((track) => track.stop());
-        }
-        if (peerConnection.current) {
-            peerConnection.current.close();
-        }
-        if (socket.connected) {
-            socket.disconnect();
-        }
+        connectionRef.current.close();
     };
-    console.log("my",stream)
-    console.log("other",remoteStream)
 
     return (
         <>
-            <h1 style={{ textAlign: 'center', color: '#fff' }}>Zoomish</h1>
+            <h1 style={{ textAlign: "center", color: '#fff' }}>Zoomish</h1>
             <div className="container">
                 <div className="video-container">
                     <div className="video">
-                        {stream &&  <ReactPlayer url={stream} playing muted autoPlay style={{ width: '300px' }}/> }
+                        {stream && <video playsInline muted ref={myVideo} autoPlay style={{ width: "300px" }} />}
                     </div>
                     <div className="video">
-                        {callAccepted && !callEnded ? (
-                             <ReactPlayer url={remoteStream} playing muted autoPlay style={{ width: '300px' }}/> 
-                        ) : null}
-                        {callAccepted && !callEnded && userVideoSrc && (
-                             <ReactPlayer url={remoteStream} playing muted autoPlay style={{ width: '300px' }}/> 
-                        )}
+                        {callAccepted && !callEnded ?
+                            <video playsInline ref={userVideo} autoPlay style={{ width: "300px" }} /> :
+                            null}
                     </div>
                 </div>
                 <div className="myId">
@@ -149,9 +138,9 @@ export default function InterviewCall() {
                         variant="filled"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
-                        style={{ marginBottom: '20px' }}
+                        style={{ marginBottom: "20px" }}
                     />
-                    <CopyToClipboard text={me} style={{ marginBottom: '2rem' }}>
+                    <CopyToClipboard text={me} style={{ marginBottom: "2rem" }}>
                         <Button variant="contained" color="primary" startIcon={<AssignmentIcon fontSize="large" />}>
                             Copy ID
                         </Button>
@@ -174,19 +163,23 @@ export default function InterviewCall() {
                                 <PhoneIcon fontSize="large" />
                             </IconButton>
                         )}
+                        {idToCall}
                     </div>
-                </div>
-                <div>
-                    {receivingCall && !callAccepted ? (
-                        <div className="caller">
-                            <h1>{name} is calling...</h1>
-                            <Button variant="contained" color="primary" onClick={answerCall}>
-                                Answer
-                            </Button>
-                        </div>
-                    ) : null}
-                </div>
+                )}
+                {receivingCall && !callAccepted && (
+                    <div>
+                        <h2>{caller} is calling...</h2>
+                        <Button variant="contained" color="primary" onClick={answerCall}>
+                            Answer
+                        </Button>
+                    </div>
+                )}
+                {callAccepted && !callEnded && (
+                    <Button variant="contained" color="secondary" onClick={leaveCall}>
+                        End Call
+                    </Button>
+                )}
             </div>
-        </>
+        </div>
     );
 }

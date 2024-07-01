@@ -4,12 +4,15 @@ import useAuth from "../Hooks/UseAuth";
 import { useLocation } from "react-router-dom";
 import { format } from "timeago.js";
 import "./css/apply.css";
+import { useTranslation } from 'react-i18next';
+import BackButton from "../components/BackButton";
 
 export default function Apply() {
   const { getUserData, getUserToken } = useAuth();
 
   const userData = getUserData();
   const token = getUserToken();
+  const { t } = useTranslation();
 
   const location = useLocation();
 
@@ -177,23 +180,23 @@ export default function Apply() {
         {readData && (
           <div>
             <h2> {readData.JobTask}</h2>
-            <h2>Job Type: {readData.Jobtype}</h2>
-            <p>Job Title: {readData.Jobtitle}</p>
-            <p>Description: {readData.Description}</p>
-            <p>Qualification: {readData.Qualification}</p>
-            <p>Salary: {readData.Salary}</p>
-            <p>location: {readData.location}</p>
-            <p>Contact: {readData.Contact}</p>
-            <p>PostedDate: {format( readData.PostedDate)}</p>
-            <p>Deadline: {readData.Deadline}</p>
+            <h2>{t('Job Type')}: {readData.Jobtype}</h2>
+            <p>{t('Job Title')}: {readData.Jobtitle}</p>
+            <p>{t('Description')}: {readData.Description}</p>
+            <p>{t('Qualification')}: {readData.Qualification}</p>
+            <p>{t('Salary')}: {readData.Salary}</p>
+            <p>{t('Location')}: {readData.location}</p>
+            <p>{t('Contact')}: {readData.Contact}</p>
+            <p>{t('PostedDate')}: {format( readData.PostedDate)}</p>
+            <p>{t('Deadline')}: {readData.Deadline}</p>
 
             {applied === "applied" || applied === "hired" ? (
               <button className="apply-btn applied" onClick={() => alreadyapplied(applied)}>
-                Apply Now
+                {t('Apply Now')}
               </button>
             ) : (
               <button className="apply-btn" onClick={togglePopup}>
-                Apply Now
+                {t('Apply Now')}
               </button>
             )}
 
@@ -202,37 +205,37 @@ export default function Apply() {
                 <div className={`form`}>
                   <div className="form-content">
                     <h3 className="">
-                      Application for {readData.Jobtitle} position
+                      {t('Application for')} {readData.Jobtitle} {t('position')}
                     </h3>
-                    Fullname
+                    {t('Fullname')}
                     <input
                       className="input"
                       type="text"
                       placeholder={freelancerData.Fullname}
                     />
                     <br />
-                    Phonenumber
+                    {t('Phonenumber')}
                     <input
                       className="input"
                       type="text"
                       placeholder={freelancerData.Phonenumber}
                     />
                     <br />
-                    Email
+                    {t('Email')}
                     <input
                       className="input"
                       type="email"
                       placeholder={freelancerData.Email}
                     />{" "}
                     <br />
-                    Address
+                    {t('Address')}
                     <input
                       className="input"
                       type="text"
                       placeholder="Address"
                     />{" "}
                     <br />
-                    Your cv
+                    {t('Your CV')}
                     {freelancerData.freelancerprofile.cv ? (
                       <div className="">
                         <a
@@ -249,9 +252,9 @@ export default function Apply() {
                         </a>
                       </div>
                     ) : null}
-                    change CV
+                    {t('Change CV')}
                     <input type="file" onChange={uploadcv} /> <br />
-                    Cover Letter
+                    {t('Cover Letter')}
                     <input
                       className="input"
                       type="text"
@@ -267,7 +270,7 @@ export default function Apply() {
                     <br />
                     <br /> <br />
                     <button className="popup-btn" onClick={saveData}>
-                      Submit
+                      {t('Submit')}
                     </button>
                     <button className="popup-btn" id="x" onClick={togglePopup}>
                       X
@@ -279,6 +282,7 @@ export default function Apply() {
           </div>
         )}
       </div>
+      <BackButton />
     </>
   );
 }

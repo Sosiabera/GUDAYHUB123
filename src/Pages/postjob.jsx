@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import "./css/post.css";
 import useAuth from "../Hooks/UseAuth";
+import BackButton from "../components/BackButton";
 
 export default function Write() {
   const { getUserData, getUserToken } = useAuth();
@@ -119,19 +120,6 @@ export default function Write() {
     setinputValue({ ...inputValue, urgency: !inputValue.urgency });
   };
 
-  const handleDelete = async (postId) => {
-    try {
-      const response = await axios.delete(`http://localhost:4000/PostHistory/deletepost/${postId}`);
-
-      console.log(response.data);
-      alert("post deleted")
-      setreadData(readData.filter((post) => post._id !== postId));
-    } catch (error) {
-      console.error('Error deleting post:', error.message);
-    }
-  };
-
-
   return (
     <>
       <div className="postimg">
@@ -229,6 +217,7 @@ export default function Write() {
                     </div>
                   </div>
 
+
                   <JobTypeSelector setinputValue={setinputValue} />
                   <InputField
                     name="Jobtitle"
@@ -314,6 +303,7 @@ export default function Write() {
                 <p className="titlef">{data.Jobtype}</p>
                 <h3 className="textf">Description </h3>
                 <p className="titlef">{data.Description}</p>
+                <button onClick={() => handleDelete(data._id)}>Delete</button>
               </div>
               <button
                 className="btn-job1 more"
@@ -332,6 +322,7 @@ export default function Write() {
           ))}
         </div>
       )}
+      <BackButton />
     </>
   );
 }
@@ -365,9 +356,11 @@ function JobTypeSelector({ setinputValue }) {
       >
         hybrid
       </div>
+      <BackButton />
     </div>
   );
 }
+
 
 function InputField({ name, placeholder, value, onChange }) {
   return (

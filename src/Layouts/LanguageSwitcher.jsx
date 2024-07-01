@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { CiGlobe } from "react-icons/ci";
 const LanguageSwitcher = () => {
   const { i18n } = useTranslation();
-  const { t } = useTranslation();
+  //const { t } = useTranslation();
 
   const changeLanguage = (lng) => {
     console.log(`Attempting to change language to ${lng}`);
@@ -25,9 +25,9 @@ const LanguageSwitcher = () => {
   return (
     <div className="lng">
       <select onChange={handleLanguageChange} defaultValue={i18n.language}>
-        <option value="en">{t('English')}</option>
-        <option value="am">{t('Amharic')}</option>
-        <option value="ao">{t('Afan Oromoo')}</option>
+        <option value="en">English</option>
+        <option value="am">አማርኛ</option>
+        <option value="ao">Afan Oromoo</option>
       </select>
     </div>
   );
