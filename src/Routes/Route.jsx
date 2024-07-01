@@ -27,6 +27,7 @@ const AppRoutes = () => {
   const showFooter = [
     location.pathname !== "/",
     location.pathname !== "/Messenger",
+    location.pathname !== "/InterviewCalls",
   ];
 
   return (
@@ -103,7 +104,8 @@ const AppRoutes = () => {
             </Route>
           </Routes>
           {showFooter && <Footer />}
-       
+        </PeerProvider>
+      </SocketProvider>
     </>
   );
 };

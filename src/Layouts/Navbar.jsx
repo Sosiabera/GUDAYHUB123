@@ -150,7 +150,7 @@ const Navbar = () => {
     <>
       {shownav && (
         <nav className={nav ? "nav active" : "nav"}>
-          <RouterLink to="main" className="logo">
+          <RouterLink to="" className="logo">
             <img src="/image/logo.png" alt="" />
           </RouterLink>
           <input className="menu-btn" type="checkbox" id="menu-btn" />

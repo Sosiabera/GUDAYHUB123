@@ -6,7 +6,7 @@ import fimage5 from "/image/logo.png";
 import useAuth from "../Hooks/UseAuth";
 //import zxcvbn from 'zxcvbn';
 import { useTranslation } from 'react-i18next';
-
+import HomeSlide from "../components/homeslide";
 
 const Home = () => {
   const [inputValue, setinputValue] = useState({
@@ -174,17 +174,15 @@ const Home = () => {
 
 
   return (
+    <>
     <div id="main">
       <Element name="main">
         <section>
           {
+            <>
             <div className="header-heading">
-              <h2> {t('Connecting Freelancers and Employers')}</h2>
-              <h2>
-                <span> {t('By Zagol')}</span>
-              </h2>
-
-
+            <HomeSlide />
+            
               <div className={`code${code}`} >
                 <p>{t('we have sent a code to your email enter the code to register')}</p>
               <input
@@ -386,6 +384,7 @@ const Home = () => {
                 </div>
               </div>
             </div>
+            </>
           }
         </section>
       </Element>
@@ -455,6 +454,7 @@ const Home = () => {
       <Element name="contact">
         <section>
           {
+            <>
             <div id="contact">
               <h1>{t('Contact Us')}</h1>
               <form>
@@ -463,13 +463,8 @@ const Home = () => {
                 <textarea placeholder={t('Write here')} name="message"></textarea>
                 <input type="submit" value={t('Send')} />
               </form>
-            </div>
-          }
-        </section>
-      </Element>
-      <Element>
-        <section>
-          {
+            
+      
             <div>
               <ul class="wrappersocial">
                 <a href="www.facebook.com" class="icon facebook">
@@ -509,10 +504,13 @@ const Home = () => {
                 </a>
               </ul>
             </div>
+            </div>
+            </>
           }
         </section>
       </Element>
     </div>
+    </>
   );
 };
 
