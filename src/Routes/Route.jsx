@@ -16,11 +16,10 @@ import Messenger from "../Pages/messenger/Messenger";
 import Footer from "../Layouts/footer";
 import Complaint from "../assets/complaint";
 import Offer from "../Pages/offer";
-import Interview from "../Pages/interview";
-import RoomPage from "../Pages/room";
+
+
 import InterviewCall from "../Pages/Interviewcall";
-import { SocketProvider } from "../provider/socket";
-import { PeerProvider } from "../provider/peer";
+
 
 const AppRoutes = () => {
   const location = useLocation();
@@ -32,8 +31,7 @@ const AppRoutes = () => {
 
   return (
     <>
-      <SocketProvider>
-        <PeerProvider>
+      
           <Routes>
             <Route path="/" element={<Layout />}>
               <Route index element={<Home />} />
@@ -63,19 +61,13 @@ const AppRoutes = () => {
                 element={<PrivateRoute element={<Messenger />} />}
               />
 
-              <Route
-                path="/Interview"
-                element={<PrivateRoute element={<Interview />} />}
-              />
+              
 
               <Route
                 path="/InterviewCalls"
                 element={<PrivateRoute element={<InterviewCall />} />}
               />
-              <Route
-                path="/room/:roomId"
-                element={<PrivateRoute element={<RoomPage />} />}
-              />
+             
               <Route
                 path="/employerpage/Freelancerdetails"
                 element={<PrivateRoute element={<Freelancerdetails />} />}
@@ -111,8 +103,7 @@ const AppRoutes = () => {
             </Route>
           </Routes>
           {showFooter && <Footer />}
-        </PeerProvider>
-      </SocketProvider>
+       
     </>
   );
 };

@@ -535,6 +535,7 @@ align-items: center;
 justify-content: space-between;
 padding: 50px 5% 0px 5%;
 position: relative;
+border: 5px solid #5f9ea0;
 }
 
 .about-text{
