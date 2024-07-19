@@ -19,7 +19,10 @@ import Offer from "../Pages/offer";
 
 
 import InterviewCall from "../Pages/Interviewcall";
-
+import { SocketProvider } from "../provider/socket";
+import { PeerProvider } from "../provider/peer";
+import Joblist from "../components/Freelancer/JobList";
+import Freelancerlist from "../components/employer/freelancerlist";
 
 const AppRoutes = () => {
   const location = useLocation();
@@ -32,11 +35,16 @@ const AppRoutes = () => {
 
   return (
     <>
-      
+      <SocketProvider>
+        <PeerProvider>
           <Routes>
             <Route path="/" element={<Layout />}>
               <Route index element={<Home />} />
               <Route path="/" element={<Home />} />
+              <Route path="/joblist" element={<Joblist />} />
+              <Route path="/joblist/apply" element={<Apply />} />
+              <Route path="/freelancerlist" element={<Freelancerlist />} />
+              <Route path="/freelancerlist/Freelancerdetails" element={<Freelancerdetails />} />
               <Route
                 path="/freelancerpage"
                 element={<PrivateRoute element={<Freelancerpage />} />}
@@ -64,7 +72,8 @@ const AppRoutes = () => {
 
               
 
-              <Route
+
+<Route
                 path="/InterviewCalls"
                 element={<PrivateRoute element={<InterviewCall />} />}
               />
@@ -103,8 +112,9 @@ const AppRoutes = () => {
               />
             </Route>
           </Routes>
-          {showFooter && <Footer />}
-       
+          {showFooter.every(Boolean) && <Footer />}
+        </PeerProvider>
+      </SocketProvider>
     </>
   );
 };
