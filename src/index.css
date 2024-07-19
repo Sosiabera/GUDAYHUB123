@@ -14,6 +14,22 @@ ul{
   list-style: none;
   margin-bottom: 20px;
 }
+.backbtn {
+  position: fixed;
+  bottom: 20px; 
+  left: 20px;  
+  padding: 10px 20px;
+  background-color: #5f9ea0; 
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  z-index: 1000; 
+}
+
+.backbtn:hover {
+  background-color: #3d7375;
+}
 a{
   text-decoration: none;
 }
@@ -27,8 +43,8 @@ input{
 }
 .logo img{
   width: 200px;
-  margin-left: -5rem;
-  margin-top: -4.5rem;
+  margin-left: -20rem;
+  margin-top: -4rem;
 }
 
 
@@ -541,6 +557,7 @@ justify-content: space-between;
 padding: 0px 5% 0px 5%;
 position: relative;
 background-color:#36686b;
+border: 5px solid #5f9ea0;
 }
 
 .about-text{
@@ -805,7 +822,7 @@ width: 600px;
           user-select: none;
       }
       nav .menu-icon .nav-icon{
-          background-color:#5f9ea0;
+          background-color:#2a5355;
           display:block;
           height:2px;
           position:relative;
@@ -814,7 +831,7 @@ width: 600px;
       }
       nav .menu-icon .nav-icon:before,
       nav .menu-icon .nav-icon:after{
-          background:#5f9ea0;
+          background:#2a5355;
           content:'';
           display:block;
           height:100%;
