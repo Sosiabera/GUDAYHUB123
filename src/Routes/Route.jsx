@@ -104,8 +104,7 @@ const AppRoutes = () => {
             </Route>
           </Routes>
           {showFooter && <Footer />}
-        </PeerProvider>
-      </SocketProvider>
+       
     </>
   );
 };

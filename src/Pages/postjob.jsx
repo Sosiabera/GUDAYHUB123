@@ -120,6 +120,18 @@ export default function Write() {
     setinputValue({ ...inputValue, urgency: !inputValue.urgency });
   };
 
+  const handleDelete = async (postId) => {
+    try {
+      const response = await axios.delete(`http://localhost:4000/post/deletepost/${postId}`, {
+      
+      });
+      console.log(response.data);
+      setreadData(readData.filter((post) => post._id !== postId));
+    } catch (error) {
+      console.error('Error deleting post:', error.message);
+    }
+  };
+
   return (
     <>
       <div className="postimg">
@@ -305,13 +317,6 @@ export default function Write() {
                 <p className="titlef">{data.Description}</p>
                 <button onClick={() => handleDelete(data._id)}>Delete</button>
               </div>
-              <button
-                className="btn-job1 more"
-                onClick={() => handleDelete(data._id)}
-              >
-                 Delete Post 
-              </button>
-
               <button
                 className="btn-job1 more"
                 onClick={() => handlepost(data._id)}
