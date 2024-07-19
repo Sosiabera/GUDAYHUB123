@@ -175,21 +175,6 @@ export default function Apply() {
         {readData && (
           <div>
             <h2> {readData.JobTask}</h2>
-<<<<<<< HEAD
-            <h2>Job Type: {readData.Jobtype}</h2>
-            <p>Job Title: {readData.Jobtitle}</p>
-            <p>Description: {readData.Description}</p>
-            <p>Qualification: {readData.Qualification}</p>
-            <p>Salary: {readData.Salary}</p>
-            <p>Location: {readData.Location}</p>
-            <p>Contact: {readData.Contact}</p>
-            <p>Posted Date: {format(readData.PostedDate)}</p>
-            <p>Deadline: {readData.Deadline}</p>
-
-            {applied === "applied" || applied === "hired" ? (
-              <button className="apply-btn applied" onClick={() => alreadyApplied(applied)}>
-                Apply Now
-=======
             <h2>{t('Job Type')}: {readData.Jobtype}</h2>
             <p>{t('Job Title')}: {readData.Jobtitle}</p>
             <p>{t('Description')}: {readData.Description}</p>
@@ -203,7 +188,6 @@ export default function Apply() {
             {applied === "applied" || applied === "hired" ? (
               <button className="apply-btn applied" onClick={() => alreadyapplied(applied)}>
                 {t('Apply Now')}
->>>>>>> 8a858d009a296d7ddeb69090d6eac7512404a7ee
               </button>
             ) : (
               <button className="apply-btn" onClick={togglePopup}>
@@ -246,11 +230,7 @@ export default function Apply() {
                       placeholder="Address"
                     />{" "}
                     <br />
-<<<<<<< HEAD
-                    Your CV
-=======
                     {t('Your CV')}
->>>>>>> 8a858d009a296d7ddeb69090d6eac7512404a7ee
                     {freelancerData.freelancerprofile.cv ? (
                       <div className="">
                         <a
@@ -265,11 +245,7 @@ export default function Apply() {
                         </a>
                       </div>
                     ) : null}
-<<<<<<< HEAD
-                    Change CV
-=======
                     {t('Change CV')}
->>>>>>> 8a858d009a296d7ddeb69090d6eac7512404a7ee
                     <input type="file" onChange={uploadcv} /> <br />
                     {t('Cover Letter')}
                     <input
